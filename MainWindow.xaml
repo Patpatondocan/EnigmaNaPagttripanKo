@@ -1,0 +1,883 @@
+﻿<Window x:Name="windowEnigma" x:Class="EnigmaTrial1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EnigmaTrial1"
+        mc:Ignorable="d"
+        Title="Enigma UI Machine..." Height="650" Width="1100" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="MyGrid1">
+        <Grid.Background>
+            <ImageBrush ImageSource="background.jpg"/>
+        </Grid.Background>
+        <Rectangle HorizontalAlignment="Left" Height="498" Margin="773,118,0,0" Stroke="Black" VerticalAlignment="Top" Width="293">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="background2.jpg" Stretch="UniformToFill" Opacity="0.3"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Button ToolTip="Accepts single CSV file Only." x:Name="loadBtn" Content="Load File" Margin="36,110,0,0" VerticalAlignment="Top" Width="100" Height="45" Click="loadBtn_Click" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsEnabled="True" FontWeight="Bold" FontFamily="Arial Black" Cursor="Hand"/>
+        <Button ToolTip="Change the Rotor Setup." x:Name="changeSettingsBtn" Content="Settings" HorizontalAlignment="Left" Margin="36,166,0,0" VerticalAlignment="Top" Width="100" Height="45" Click="changeSettingsBtn_Click" IsEnabled="False" HorizontalContentAlignment="Center" FontWeight="Bold" FontFamily="Arial Black" Cursor="Hand"/>
+        <TextBox ToolTip="CSV File Directory." x:Name="fileDirectoryTbx" HorizontalAlignment="Left" Height="30" Margin="167,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="581" Cursor="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" BorderBrush="Black" IsReadOnly="True" IsEnabled="False">
+            <TextBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Red" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.Background>
+        </TextBox>
+        <Label ToolTip="Created by : Charles Lebeco Donor." Content="Enigma Simulator" HorizontalAlignment="Left" Margin="288,28,0,0" VerticalAlignment="Top" Width="524" FontFamily="Copperplate Gothic Bold" FontSize="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFCBCBCB" BorderBrush="Black" Cursor="Help">
+            <Label.Background>
+                <ImageBrush/>
+            </Label.Background>
+        </Label>
+        <Ellipse x:Name="_E1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="168,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <TextBox ToolTip="Type a Word or Phrase to Encrypt." x:Name="userTbx" IsReadOnly="True" IsEnabled="True" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="180" Margin="788,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" BorderBrush="#FF0040FF" FontFamily="Arial Black" KeyDown="userTbx_KeyDown" PreviewKeyDown="userTbx_PreviewKeyDown" Cursor="IBeam">
+            <TextBox.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFC2C2F5" Offset="1"/>
+                </RadialGradientBrush>
+            </TextBox.Background>
+        </TextBox>
+        <TextBox ToolTip="These are the Encrypted word or phrase." x:Name="outputTbx" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="180" Margin="788,382,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="262" BorderBrush="#FF0040FF" IsReadOnly="True" FontFamily="Arial Black" Cursor="No" TextChanged="outputTbx_TextChanged">
+            <TextBox.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFC2C2F5" Offset="1"/>
+                </RadialGradientBrush>
+            </TextBox.Background>
+        </TextBox>
+        <Label x:Name="nextFocus" Content="User Input:" HorizontalAlignment="Left" Margin="786,126,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Arial Black" Foreground="#FFBFCAEE" FontSize="15"/>
+        <Button ToolTip="Download your Encrypted Data." x:Name="printBtn" Content="Save me" HorizontalAlignment="Left" Margin="949,566,0,0" VerticalAlignment="Top" Width="100" Height="45" IsEnabled="False" FontWeight="Bold" FontFamily="Arial Black" Cursor="Hand" Click="printBtn_Click"/>
+        <Label Content="Encrypted Output:" HorizontalAlignment="Left" Margin="786,352,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Arial Black" Foreground="#FFBFCAEE" FontSize="15"/>
+        <Label x:Name="_label1" Content="1" HorizontalAlignment="Left" Margin="180,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E2" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="228,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label2" Content="2" HorizontalAlignment="Left" Margin="241,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E3" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="286,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label3" Content="3" HorizontalAlignment="Left" Margin="299,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E4" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="345,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label4" Content="4" HorizontalAlignment="Left" Margin="357,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E5" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="405,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label5" Content="5" HorizontalAlignment="Left" Margin="418,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E6" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="465,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label6" Content="6" HorizontalAlignment="Left" Margin="477,164,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E7" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="525,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label7" Content="7" HorizontalAlignment="Left" Margin="537,166,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E8" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="585,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label8" Content="8" HorizontalAlignment="Left" Margin="598,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E10" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="705,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label10" Content="0" HorizontalAlignment="Left" Margin="718,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E9" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="646,162,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label9" Content="9" HorizontalAlignment="Left" Margin="660,165,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E13" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="18,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label13" Content="!" HorizontalAlignment="Left" Margin="34,221,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E14" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="78,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label14" Content="@" HorizontalAlignment="Left" Margin="86,219,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E15" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="136,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label15" Content="#" HorizontalAlignment="Left" Margin="148,222,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E16" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="195,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label16" Content="$" HorizontalAlignment="Left" Margin="207,221,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E17" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="255,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label17" Content="%" HorizontalAlignment="Left" Margin="264,222,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E18" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="315,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label18" Content="^" HorizontalAlignment="Left" Margin="326,224,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E19" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="375,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label19" Content="&amp;" HorizontalAlignment="Left" Margin="385,221,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E20" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="435,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label20" Content="*" HorizontalAlignment="Left" Margin="450,225,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E22" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="555,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label22" Content=")" HorizontalAlignment="Left" Margin="571,220,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E21" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="496,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label21" Content="(" HorizontalAlignment="Left" Margin="510,219,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E25" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="48,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label25" Content="q" HorizontalAlignment="Left" Margin="59,273,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E26" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="108,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label26" Content="w" HorizontalAlignment="Left" Margin="117,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E27" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="166,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label27" Content="e" HorizontalAlignment="Left" Margin="178,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E28" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="225,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label28" Content="r" HorizontalAlignment="Left" Margin="239,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E29" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="285,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label29" Content="t" HorizontalAlignment="Left" Margin="299,277,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E30" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="345,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label30" Content="y" HorizontalAlignment="Left" Margin="358,273,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E31" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="405,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label31" Content="u" HorizontalAlignment="Left" Margin="416,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E32" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="465,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label32" Content="i" HorizontalAlignment="Left" Margin="481,277,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E34" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="585,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label34" Content="p" HorizontalAlignment="Left" Margin="597,271,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E33" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="526,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label33" Content="o" HorizontalAlignment="Left" Margin="539,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E37" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="18,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label37" Content="Q" HorizontalAlignment="Left" Margin="27,334,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E38" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="78,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label38" Content="W" HorizontalAlignment="Left" Margin="85,336,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E39" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="136,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label39" Content="E" HorizontalAlignment="Left" Margin="148,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E40" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="195,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label40" Content="R" HorizontalAlignment="Left" Margin="207,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E41" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="255,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label41" Content="T" HorizontalAlignment="Left" Margin="267,336,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E42" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="315,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label42" Content="Y" HorizontalAlignment="Left" Margin="327,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E43" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="375,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label43" Content="U" HorizontalAlignment="Left" Margin="386,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E44" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="435,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label44" Content="I" HorizontalAlignment="Left" Margin="451,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E46" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="555,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label46" Content="P" HorizontalAlignment="Left" Margin="567,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E45" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="496,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label45" Content="O" HorizontalAlignment="Left" Margin="506,335,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E49" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="47,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label49" Content="a" HorizontalAlignment="Left" Margin="60,390,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E50" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="107,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label50" Content="s" HorizontalAlignment="Left" Margin="121,391,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E51" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="165,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label51" Content="d" HorizontalAlignment="Left" Margin="175,393,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E52" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="224,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label52" Content="f" HorizontalAlignment="Left" Margin="237,395,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E53" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="284,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label53" Content="g" HorizontalAlignment="Left" Margin="295,388,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E54" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="344,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label54" Content="h" HorizontalAlignment="Left" Margin="356,393,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E55" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="404,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label55" Content="j" HorizontalAlignment="Left" Margin="420,390,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E56" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="464,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label56" Content="k" HorizontalAlignment="Left" Margin="476,393,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E57" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="525,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label57" Content="l" HorizontalAlignment="Left" Margin="540,394,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E61" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="18,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label61" Content="A" HorizontalAlignment="Left" Margin="29,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E62" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="78,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label62" Content="S" HorizontalAlignment="Left" Margin="90,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E63" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="136,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label63" Content="D" HorizontalAlignment="Left" Margin="146,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E64" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="195,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label64" Content="F" HorizontalAlignment="Left" Margin="208,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E65" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="255,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label65" Content="G" HorizontalAlignment="Left" Margin="265,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E66" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="315,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label66" Content="H" HorizontalAlignment="Left" Margin="325,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E67" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="375,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label67" Content="J" HorizontalAlignment="Left" Margin="388,453,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E68" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="435,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label68" Content="K" HorizontalAlignment="Left" Margin="446,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E69" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="496,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label69" Content="L" HorizontalAlignment="Left" Margin="509,451,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E73" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="49,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label73" Content="z" HorizontalAlignment="Left" Margin="62,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E74" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="109,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label74" Content="x" HorizontalAlignment="Left" Margin="121,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E75" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="167,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label75" Content="c" HorizontalAlignment="Left" Margin="180,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E76" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="226,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label76" Content="v" HorizontalAlignment="Left" Margin="239,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E77" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="286,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label77" Content="b" HorizontalAlignment="Left" Margin="298,510,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E78" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="346,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label78" Content="n" HorizontalAlignment="Left" Margin="358,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E79" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="406,507,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label79" Content="m" HorizontalAlignment="Left" Margin="414,508,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E83" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="20,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label83" Content="Z" HorizontalAlignment="Left" Margin="32,568,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E84" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="80,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label84" Content="X" HorizontalAlignment="Left" Margin="91,568,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E85" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="138,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label85" Content="C" HorizontalAlignment="Left" Margin="149,568,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E86" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="197,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label86" Content="V" HorizontalAlignment="Left" Margin="208,569,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E87" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="258,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label87" Content="B" HorizontalAlignment="Left" Margin="270,568,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E88" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="318,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label88" Content="N" HorizontalAlignment="Left" Margin="328,569,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E89" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="378,565,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label89" Content="M" HorizontalAlignment="Left" Margin="386,567,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E23" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="616,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label23" Content="-" HorizontalAlignment="Left" Margin="630,220,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E24" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="677,218,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label24" Content="=" HorizontalAlignment="Left" Margin="687,220,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E36" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="705,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label36" Content="+" HorizontalAlignment="Left" Margin="716,275,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E35" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="646,274,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label35" Content="_" HorizontalAlignment="Left" Margin="661,274,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E47" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="616,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label47" Content="[" HorizontalAlignment="Left" Margin="630,334,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E48" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="677,332,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label48" Content="]" HorizontalAlignment="Left" Margin="693,334,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E58" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="587,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label58" Content="{}{" HorizontalAlignment="Left" Margin="601,391,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E59" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="647,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label59" Content="}" HorizontalAlignment="Left" Margin="662,391,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E60" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="708,390,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label60" Content="|" HorizontalAlignment="Left" Margin="723,390,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E70" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="557,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label70" Content=":" HorizontalAlignment="Left" Margin="573,450,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E71" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="617,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label71" Content=";" HorizontalAlignment="Left" Margin="633,449,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E72" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="678,449,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label72" Content="\" HorizontalAlignment="Left" Margin="692,452,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E81" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="646,508,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label81" Content="." HorizontalAlignment="Left" Margin="662,505,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E82" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="706,508,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label82" Content="/" HorizontalAlignment="Left" Margin="720,510,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E11" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="618,567,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label11" Content="&gt;" HorizontalAlignment="Left" Margin="630,569,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E91" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="557,568,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label91" Content="?" HorizontalAlignment="Left" Margin="571,572,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E80" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="585,508,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label80" Content="," HorizontalAlignment="Left" Margin="598,502,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="43" Width="23">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E12" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="680,568,0,0" Stroke="Red" VerticalAlignment="Top" Width="50" Height="50" Cursor="Pen"/>
+        <Label x:Name="_label12" Content="&lt;" HorizontalAlignment="Left" Margin="690,569,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Ellipse x:Name="_E90" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="119" Margin="466,504,0,0" Stroke="Red" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.5,0.5" Cursor="Pen">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="42.634"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Label x:Name="_label90" Content="Space" HorizontalAlignment="Left" Margin="467,541,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Cursor="Pen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7985F9" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Button ToolTip="Exit the program." x:Name="exitBtn" HorizontalAlignment="Left" Margin="1027,10,0,0" VerticalAlignment="Top" Width="55" Height="45" Click="exitBtn_Click" Content="X" FontFamily="Arial Black" FontWeight="Bold" Foreground="Red" BorderBrush="Red" Cursor="Hand"/>
+
+    </Grid>
+</Window>
